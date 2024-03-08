@@ -1,13 +1,14 @@
-﻿using System;
-using System.Runtime.Serialization;
-using LibGit2Sharp.Core;
+﻿using LibGit2Sharp.Core;
+using System;
 
 namespace LibGit2Sharp
 {
     /// <summary>
     /// The exception that is thrown when an operation is canceled.
     /// </summary>
+#if !NET8_0_OR_GREATER
     [Serializable]
+#endif
     public class UserCancelledException : NativeException
     {
         /// <summary>
@@ -42,6 +43,7 @@ namespace LibGit2Sharp
             : base(message, innerException)
         { }
 
+#if !NET8_0_OR_GREATER
         /// <summary>
         /// Initializes a new instance of the <see cref="LibGit2Sharp.UserCancelledException"/> class with a serialized data.
         /// </summary>
@@ -50,6 +52,7 @@ namespace LibGit2Sharp
         protected UserCancelledException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         { }
+#endif
 
         internal UserCancelledException(string message, GitErrorCategory category)
             : base(message, category)

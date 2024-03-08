@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.Serialization;
-using LibGit2Sharp.Core;
+﻿using LibGit2Sharp.Core;
+using System;
 
 namespace LibGit2Sharp
 {
@@ -9,7 +8,9 @@ namespace LibGit2Sharp
     /// because of a conflicting change staged in the index, or unstaged
     /// in the working directory.
     /// </summary>
+#if !NET8_0_OR_GREATER
     [Serializable]
+#endif
     public class CheckoutConflictException : NativeException
     {
         /// <summary>
@@ -44,6 +45,7 @@ namespace LibGit2Sharp
             : base(message, innerException)
         { }
 
+#if !NET8_0_OR_GREATER
         /// <summary>
         /// Initializes a new instance of the <see cref="LibGit2Sharp.CheckoutConflictException"/> class with a serialized data.
         /// </summary>
@@ -52,6 +54,7 @@ namespace LibGit2Sharp
         protected CheckoutConflictException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         { }
+#endif
 
         internal CheckoutConflictException(string message, GitErrorCategory category)
             : base(message, category)

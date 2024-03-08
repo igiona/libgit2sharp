@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.Serialization;
 
 namespace LibGit2Sharp
 {
@@ -7,7 +6,9 @@ namespace LibGit2Sharp
     /// The exception that is thrown when a operation requiring an existing
     /// branch is performed against an unborn branch.
     /// </summary>
+#if !NET8_0_OR_GREATER
     [Serializable]
+#endif
     public class UnbornBranchException : LibGit2SharpException
     {
         /// <summary>
@@ -42,6 +43,7 @@ namespace LibGit2Sharp
             : base(message, innerException)
         { }
 
+#if !NET8_0_OR_GREATER
         /// <summary>
         /// Initializes a new instance of the <see cref="UnbornBranchException"/> class with a serialized data.
         /// </summary>
@@ -50,5 +52,6 @@ namespace LibGit2Sharp
         protected UnbornBranchException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         { }
+#endif
     }
 }

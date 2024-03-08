@@ -1,13 +1,14 @@
-﻿using System;
-using System.Runtime.Serialization;
-using LibGit2Sharp.Core;
+﻿using LibGit2Sharp.Core;
+using System;
 
 namespace LibGit2Sharp
 {
     /// <summary>
     /// The exception that is thrown attempting to create a resource that already exists.
     /// </summary>
+#if !NET8_0_OR_GREATER
     [Serializable]
+#endif
     public class EntryExistsException : LibGit2SharpException
     {
         /// <summary>
@@ -42,6 +43,7 @@ namespace LibGit2Sharp
             : base(message, innerException)
         { }
 
+#if !NET8_0_OR_GREATER
         /// <summary>
         /// Initializes a new instance of the <see cref="LibGit2Sharp.EntryExistsException"/> class with a serialized data.
         /// </summary>
@@ -50,6 +52,7 @@ namespace LibGit2Sharp
         protected EntryExistsException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         { }
+#endif
 
         internal EntryExistsException(string message, GitErrorCode code, GitErrorCategory category)
             : base(message, code, category)

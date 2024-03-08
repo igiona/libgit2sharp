@@ -8,7 +8,9 @@ namespace LibGit2Sharp
     /// through submodules. The inner exception contains the exception that was
     /// initially thrown while operating on the submodule.
     /// </summary>
+#if !NET8_0_OR_GREATER
     [Serializable]
+#endif
     public class RecurseSubmodulesException : LibGit2SharpException
     {
         /// <summary>
@@ -34,6 +36,7 @@ namespace LibGit2Sharp
             InitialRepositoryPath = initialRepositoryPath;
         }
 
+#if !NET8_0_OR_GREATER
         /// <summary>
         /// Initializes a new instance of the <see cref="LibGit2Sharp.RecurseSubmodulesException"/> class with a serialized data.
         /// </summary>
@@ -42,5 +45,6 @@ namespace LibGit2Sharp
         protected RecurseSubmodulesException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         { }
+#endif
     }
 }
