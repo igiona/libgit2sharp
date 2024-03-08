@@ -1,10 +1,11 @@
+using LibGit2Sharp.Core.Handles;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
-using LibGit2Sharp.Core.Handles;
 
 // Restrict the set of directories where the native library is loaded from to safe directories.
 [assembly: DefaultDllImportSearchPaths(DllImportSearchPath.AssemblyDirectory | DllImportSearchPath.ApplicationDirectory | DllImportSearchPath.SafeDirectories)]
@@ -76,6 +77,7 @@ namespace LibGit2Sharp.Core
             return true;
         }
 
+        [UnconditionalSuppressMessage("SingleFile", "IL3000:Avoid accessing Assembly file path when publishing as a single file", Justification = "The AOT case is handled at runtime")]
         private static IntPtr ResolveDll(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
         {
             IntPtr handle = IntPtr.Zero;
@@ -102,7 +104,12 @@ namespace LibGit2Sharp.Core
                 {
                     // The libraries are located at 'runtimes/<rid>/native/lib{libraryName}.so'
                     // The <rid> ends with the processor architecture. e.g. fedora-x64.
-                    string assemblyDirectory = Path.GetDirectoryName(typeof(NativeMethods).Assembly.Location);
+                    var directoryName = typeof(NativeMethods).Assembly.Location;
+                    if (String.IsNullOrEmpty(directoryName)) // If AOT compiled, this will be true
+                    {
+                        directoryName = System.AppContext.BaseDirectory;
+                    }
+                    string assemblyDirectory = Path.GetDirectoryName(directoryName);
                     string processorArchitecture = RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant();
                     string runtimesDirectory = Path.Combine(assemblyDirectory, "runtimes");
 

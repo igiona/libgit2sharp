@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace LibGit2Sharp.Core
 {
-    internal abstract class LazyGroup<T>
+    internal abstract class LazyGroup<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] T>
     {
         private readonly IList<IEvaluator<T>> evaluators = new List<IEvaluator<T>>();
         private readonly object @lock = new object();
@@ -44,7 +45,7 @@ namespace LibGit2Sharp.Core
 
         protected abstract void EvaluateInternal(Action<T> evaluator);
 
-        protected static ILazy<TResult> Singleton<TResult>(Func<TResult> resultSelector)
+        protected static ILazy<TResult> Singleton<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TResult>(Func<TResult> resultSelector)
         {
             return new LazyWrapper<TResult>(resultSelector);
         }
@@ -54,7 +55,7 @@ namespace LibGit2Sharp.Core
             void Evaluate(TInput input);
         }
 
-        private class Dependent<TInput, TOutput> : ILazy<TOutput>, IEvaluator<TInput>
+        private class Dependent<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TInput, TOutput> : ILazy<TOutput>, IEvaluator<TInput>
         {
             private readonly Func<TInput, TOutput> valueFactory;
             private readonly LazyGroup<TInput> lazyGroup;
@@ -90,7 +91,7 @@ namespace LibGit2Sharp.Core
             }
         }
 
-        protected class LazyWrapper<TType> : Lazy<TType>, ILazy<TType>
+        protected class LazyWrapper<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TType> : Lazy<TType>, ILazy<TType>
         {
             public LazyWrapper(Func<TType> evaluator)
                 : base(evaluator)
