@@ -23,6 +23,11 @@
     <MinVerBuildMetadata Condition="'$(libgit2_hash)' != ''">libgit2-$(libgit2_hash.Substring(0,7))</MinVerBuildMetadata>
   </PropertyGroup>
 
+  <!-- Apply this property group if targeting .NET 8 -->
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="..\square-logo.png" Pack="true" PackagePath="" Visible="false" />
     <None Include="..\README.md" Pack="true" PackagePath="App_Readme/" Visible="false" />
